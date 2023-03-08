@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=decive-width, initial-scale=1.0" />
+    <title>Date Widget</title>
+
+    <style>
+      body {
+        font-family: monospace;
+        font-weight: bold;
+        background-color: transparent;
+        margin: 0;
+        margin-top: 20px;
+      }
+
+      .widget {
+        padding: 5px 5px;
+        color: rgb(37, 170, 43);
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        flex-direction: column;
+        width: 130px;
+        border-radius: 5px;
+        border: solid 2px rgb(37, 170, 43);
+      }
+
+      .date,
+      .clock {
+        font-size: 1.5em;
+      }
+
+      .clock {
+        font-style: italic;
+      }
+
+      .time {
+        display: inline-block;
+        min-width: 20px;
+      }
+
+      .colon {
+        font-size: 1em;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="widget">
+        <div class="date" id="date"></div>
+        <div class="clock">
+          <div class="time" id="hour"></div>
+          <div class="colon">:</div>
+          <div class="time" id="min"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function dispalyGreetings(today) {
+        hrs = today.getHours();
+      }
+
+      function dispalyDate(today) {
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const monthNames = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        var dayName = days[today.getDay()];
+        var monthName = monthNames[today.getMonth()];
+        var date = today.getDate();
+        
+        document.getElementById("date").innerHTML =
+          dayName + ", " + monthName + " " + date;
+      }
+
+      function dispalyClock(today) {
+        var hour = padZeros(twelveHour(today.getHours()));
+        var minutes = padZeros(today.getMinutes());
+        var seconds = padZeros(today.getSeconds());
+
+        if (today.getHours() >= 12) {
+          minutes += " pm";
+        } else {
+          minutes += " am";
+        }
+
+        document.getElementById("hour").innerHTML = hour;
+        document.getElementById("min").innerHTML = minutes;
+        document.getElementById("sec").innerHTML = seconds;
+      }
+
+      function twelveHour(hour) {
+        if (hour > 12) {
+          return (hour -= 12);
+        } else if (hour === 0) {
+          return (hour = 12);
+        } else {
+          return hour;
+        }
+      }
+
+      function padZeros(num) {
+        if (num < 10) {
+          num = "0" + num;
+        }
+        return num;
+      }
+
+      function dispalyWidget() {
+        var today = new Date();
+        dispalyGreetings(today);
+        dispalyDate(today);
+        dispalyClock(today);
+        setTimeout(dispalyWidget, 500);
+      }
+
+      dispalyWidget();
+    </script>
+  </body>
+</html>
